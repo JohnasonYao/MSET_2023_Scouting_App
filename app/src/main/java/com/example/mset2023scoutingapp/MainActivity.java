@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private ToggleButton two_8;
     private ToggleButton two_9;
     private ToggleButton one_1;
-    private ToggleButton one_2 ;
+    private ToggleButton one_2;
     private ToggleButton one_3;
     private ToggleButton one_4;
     private ToggleButton one_5;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private ToggleButton one_8;
     private ToggleButton one_9;
 
-
+    private boolean[][] scoreList = new boolean[3][9];
 
 
 
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         three_1 = findViewById(R.id.three_1);
         three_2 = findViewById(R.id.three_2);
@@ -133,34 +134,39 @@ public class MainActivity extends AppCompatActivity {
         one_8 = findViewById(R.id.one_8);
         one_9 = findViewById(R.id.one_9);
 
-        three_1.setChecked(false);
-        three_2.setChecked(false);
-        three_3.setChecked(false);
-        three_4.setChecked(false);
-        three_5.setChecked(false);
-        three_6.setChecked(false);
-        three_7.setChecked(false);
-        three_8.setChecked(false);
-        three_9.setChecked(false);
-        two_1.setChecked(false);
-        two_2.setChecked(false);
-        two_3.setChecked(false);
-        two_4.setChecked(false);
-        two_5.setChecked(false);
-        two_6.setChecked(false);
-        two_7.setChecked(false);
-        two_8.setChecked(false);
-        two_9.setChecked(false);
-        one_1.setChecked(false);
-        one_2.setChecked(false);
-        one_3.setChecked(false);
-        one_4.setChecked(false);
-        one_5.setChecked(false);
-        one_6.setChecked(false);
-        one_7.setChecked(false);
-        one_8.setChecked(false);
-        one_9.setChecked(false);
+        scoreList[0][0] = three_1.isChecked();
+        scoreList[0][1] = three_2.isChecked();
+        scoreList[0][2] = three_3.isChecked();
+        scoreList[0][3] = three_4.isChecked();
+        scoreList[0][4] = three_5.isChecked();
+        scoreList[0][5] = three_6.isChecked();
+        scoreList[0][6] = three_7.isChecked();
+        scoreList[0][7] = three_8.isChecked();
+        scoreList[0][8] = three_9.isChecked();
+        scoreList[1][0] = two_1.isChecked();
+        scoreList[1][1] = two_2.isChecked();
+        scoreList[1][2] = two_3.isChecked();
+        scoreList[1][3] = two_4.isChecked();
+        scoreList[1][4] = two_5.isChecked();
+        scoreList[1][5] = two_6.isChecked();
+        scoreList[1][6] = two_7.isChecked();
+        scoreList[1][7] = two_8.isChecked();
+        scoreList[1][8] = two_9.isChecked();
+        scoreList[2][0] = one_1.isChecked();
+        scoreList[2][1] = one_2.isChecked();
+        scoreList[2][2] = one_3.isChecked();
+        scoreList[2][3] = one_4.isChecked();
+        scoreList[2][4] = one_5.isChecked();
+        scoreList[2][5] = one_6.isChecked();
+        scoreList[2][6] = one_7.isChecked();
+        scoreList[2][7] = one_8.isChecked();
+        scoreList[2][8] = one_9.isChecked();
 
+        //boolean[][] scoreList = {{three_1.isChecked(), three_2.isChecked(), three_3.isChecked(), three_4.isChecked(), three_5.isChecked(), three_6.isChecked(), three_7.isChecked(), three_8.isChecked(), three_9.isChecked()},
+                //{two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
+                //{one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
+        System.out.println(scoreList.length);
+        System.out.println(scoreList[0].length);
 
         first = findViewById(R.id.first);
         last = findViewById(R.id.last);
@@ -249,10 +255,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean[][] scoreList = {
-            {three_1.isChecked(), three_2.isChecked(), three_3.isChecked(), three_4.isChecked(), three_5.isChecked(), three_6.isChecked(), three_7.isChecked(), three_8.isChecked(), three_9.isChecked()},
-            {two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
-            {one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
+
+
 
 
 
@@ -361,10 +365,9 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < scoreList.length; i++){
             int count = 0;
 
-            for(int j = 0; i < scoreList[1].length; j++){
+            for(int j = 0; j < scoreList[1].length; j++){
                 if(scoreList[i][j]){
                     count++;
-                    //System.out.println(scoreList[i][j].isChecked());
                 }
             }
 
@@ -401,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < scoreList.length; i++){
             int count = 0;
 
-            for(int j = 0; i < scoreList[1].length; j++){
+            for(int j = 0; j < scoreList[1].length; j++){
                 if(scoreList[i][j]){
                     count++;
                 }
