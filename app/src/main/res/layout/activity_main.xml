@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/plus"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="344dp"
+        android:layout_marginTop="672dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="+"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/comments"
         android:layout_width="195dp"
@@ -525,6 +537,42 @@
         android:layout_marginStart="476dp"
         android:layout_marginTop="744dp"
         android:text="submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/minus"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="468dp"
+        android:layout_marginTop="672dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="-"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="356dp"
+        android:layout_marginTop="640dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:text="Links Completed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="26dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="428dp"
+        android:layout_marginTop="684dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,5 +1,4 @@
 package com.example.mset2023scoutingapp;
-
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 import android.os.Bundle;
@@ -10,10 +9,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.CheckBox;
+import android.widget.Toast;
 import android.widget.ToggleButton;
-
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Locale;
+import javax.net.ssl.HttpsURLConnection;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean autoEngaged;
     private boolean autoNotEngaged;
     private boolean autoNotDocked;
+    private String autoDockStatus;
     private boolean engaged;
     private boolean notEngaged;
     private boolean notDocked;
+    private String teleDockStatus;
     private boolean broke;
     private int totalScore;
     private int autoScore;
@@ -35,15 +50,19 @@ public class MainActivity extends AppCompatActivity {
     private int autoThirdRow;
     private int autoSecondRow;
     private int autoFirstRow;
+    private String autoRaw;
     private int teleThirdRow;
     private int teleSecondRow;
     private int teleFirstRow;
+    private String teleRaw;
+    private String comments;
+    private int linksScored;
 
     private EditText first;
     private EditText last;
     private EditText matchNumber;
     private EditText teamNumber;
-    private EditText comments;
+    private EditText Comments;
     private CheckBox Mobility;
     private CheckBox AutoNotEngaged;
     private CheckBox AutoEngaged;
@@ -51,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox TeleEngaged;
     private CheckBox robotBroke;
     private Button submit;
+    private Button plus;
+    private Button minus;
+    private TextView links;
 
     private ToggleButton three_1;
     private ToggleButton three_2;
@@ -81,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
     private ToggleButton one_9;
 
     private boolean[][] scoreList = new boolean[3][9];
-
 
 
     private static final long autoTimerMilli = 15000;
@@ -163,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
         scoreList[2][8] = one_9.isChecked();
 
         //boolean[][] scoreList = {{three_1.isChecked(), three_2.isChecked(), three_3.isChecked(), three_4.isChecked(), three_5.isChecked(), three_6.isChecked(), three_7.isChecked(), three_8.isChecked(), three_9.isChecked()},
-                //{two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
-                //{one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
+        //{two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
+        //{one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
         System.out.println(scoreList.length);
         System.out.println(scoreList[0].length);
 
@@ -172,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         last = findViewById(R.id.last);
         matchNumber = findViewById(R.id.matchNumber);
         teamNumber = findViewById(R.id.team);
-        comments = findViewById(R.id.comments);
+        Comments = findViewById(R.id.comments);
 
         Mobility = findViewById(R.id.checkBox4);
         AutoNotEngaged = findViewById(R.id.checkBox5);
@@ -182,12 +203,31 @@ public class MainActivity extends AppCompatActivity {
         robotBroke = findViewById(R.id.checkBox10);
 
         submit = findViewById(R.id.submit);
+        plus = findViewById(R.id.plus);
+        minus = findViewById(R.id.minus);
+        links = findViewById(R.id.textView9);
 
         autoCountdown = findViewById(R.id.autoCountdown);
         autoStartStop = findViewById(R.id.autoStartStop);
         autoReset = findViewById(R.id.autoReset);
 
         //defineButtons();
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linksScored++;
+                updateLinks();
+            }
+        });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linksScored--;
+                updateLinks();
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,24 +237,36 @@ public class MainActivity extends AppCompatActivity {
                 match = Integer.parseInt(matchNumber.getText().toString());
                 team = Integer.parseInt(teamNumber.getText().toString());
                 mobility = Mobility.isChecked();
-                autoEngaged = AutoEngaged.isChecked();
-                autoNotEngaged = AutoNotEngaged.isChecked();
-                autoNotDocked = !(autoEngaged || autoNotEngaged);
-                engaged = TeleEngaged.isChecked();
-                notEngaged = TeleEngaged.isChecked();
-                notDocked = !(engaged || notEngaged);
+                if (AutoEngaged.isChecked()) {
+                    autoDockStatus = "Engaged";
+                } else if (AutoNotEngaged.isChecked()) {
+                    autoDockStatus = "Not engaged";
+                } else {
+                    autoDockStatus = "Not Docked";
+                }
+                if (TeleEngaged.isChecked()) {
+                    teleDockStatus = "Engaged";
+                } else if (TeleNotEngaged.isChecked()) {
+                    teleDockStatus = "Not engaged";
+                } else {
+                    teleDockStatus = "Not Docked";
+                }
+                autoRaw = autoFirstRow + ":" + autoSecondRow + ":" + autoThirdRow;
+                teleRaw = teleFirstRow + ":" + teleSecondRow + ":" + teleThirdRow;
                 broke = robotBroke.isChecked();
                 totalScore = autoScore + teleScore;
+                comments = Comments.getText().toString();
 
+                new SendRequest().execute();
             }
         });
 
         autoStartStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(autoRun){
+                if (autoRun) {
                     pauseAuto();
-                } else{
+                } else {
                     startAuto();
                 }
             }
@@ -236,9 +288,9 @@ public class MainActivity extends AppCompatActivity {
         teleStartStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(teleRun){
+                if (teleRun) {
                     pauseTele();
-                } else{
+                } else {
                     startTele();
                 }
             }
@@ -255,15 +307,131 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public class SendRequest extends AsyncTask<String, Void, String> {
 
 
+        protected void onPreExecute(){}
+
+        protected String doInBackground(String... arg0) {
+
+            try{
+
+                URL url = new URL("https://script.google.com/macros/s/AKfycbyaIAOmk8eiQhRD-Ad3ZDk7wujJVYytCfU3CNumZLUf6mIzhojR6uIAUtmArDi2Klc/exec");
+                // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
+                JSONObject postDataParams = new JSONObject();
+
+                //int i;
+                //for(i=1;i<=70;i++)
 
 
+                //    String usn = Integer.toString(i);
 
-    private void startAuto(){
-        autoCount = new CountDownTimer(autoTimeLeft, 1){
+                String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
+
+                postDataParams.put("name",firstName);
+                postDataParams.put("lastName",lastName);
+                postDataParams.put("matchNumber",matchNumber);
+                postDataParams.put("teamNumber",teamNumber);
+                postDataParams.put("mobility",mobility);
+                postDataParams.put("autoDockStatus",autoDockStatus);
+                postDataParams.put("autoScore",autoScore);
+                postDataParams.put("autoRaw",autoRaw);
+                postDataParams.put("teleDockStatus",teleDockStatus);
+                postDataParams.put("teleScore",teleScore);
+                postDataParams.put("teleRaw",teleRaw);
+                postDataParams.put("linksScored",linksScored);
+                postDataParams.put("totalScore",totalScore);
+                postDataParams.put("broke",broke);
+                postDataParams.put("comments",comments);
+                postDataParams.put("id",id);
+
+
+                Log.e("params",postDataParams.toString());
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode=conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuffer sb = new StringBuffer("");
+                    String line="";
+
+                    while((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                }
+                else {
+                    return new String("false : "+responseCode);
+                }
+            }
+            catch(Exception e){
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getApplicationContext(), result,
+                    Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    public String getPostDataString(JSONObject params) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator<String> itr = params.keys();
+
+        while(itr.hasNext()){
+
+            String key= itr.next();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
+    }
+
+    private void updateLinks() {
+        links.setText(linksScored);
+    }
+
+    private void startAuto() {
+        autoCount = new CountDownTimer(autoTimeLeft, 1) {
             @Override
-            public void onTick(long x){
+            public void onTick(long x) {
                 autoTimeLeft = x;
                 updateAuto();
             }
@@ -286,22 +454,22 @@ public class MainActivity extends AppCompatActivity {
         autoReset.setVisibility(View.INVISIBLE);
     }
 
-    private void updateAuto(){
-        int seconds = (int) autoTimeLeft/1000;
-        int centiSec = (int) (autoTimeLeft % 1000)/10;
+    private void updateAuto() {
+        int seconds = (int) autoTimeLeft / 1000;
+        int centiSec = (int) (autoTimeLeft % 1000) / 10;
 
         String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", seconds, centiSec);
         autoCountdown.setText(timeLeft);
     }
 
-    private void pauseAuto(){
+    private void pauseAuto() {
         autoCount.cancel();
         autoRun = false;
         autoStartStop.setText("Start");
         autoReset.setVisibility(View.VISIBLE);
     }
 
-    public void resetAuto(){
+    public void resetAuto() {
         autoTimeLeft = autoTimerMilli;
         updateAuto();
         autoReset.setVisibility(View.INVISIBLE);
@@ -309,24 +477,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void pauseTele(){
+    private void pauseTele() {
         teleCount.cancel();
         teleRun = false;
         teleStartStop.setText("Start");
         teleReset.setVisibility(View.VISIBLE);
     }
 
-    public void resetTele(){
+    public void resetTele() {
         teleTimeLeft = teleTimerMilli;
         updateTele();
         teleReset.setVisibility(View.INVISIBLE);
         teleStartStop.setVisibility(View.VISIBLE);
     }
 
-    private void startTele(){
-        teleCount = new CountDownTimer(teleTimeLeft, 1000){
+    private void startTele() {
+        teleCount = new CountDownTimer(teleTimeLeft, 1000) {
             @Override
-            public void onTick(long x){
+            public void onTick(long x) {
                 teleTimeLeft = x;
                 updateTele();
             }
@@ -348,153 +516,85 @@ public class MainActivity extends AppCompatActivity {
         teleReset.setVisibility(View.INVISIBLE);
     }
 
-    private void updateTele(){
-        int min = (int) (teleTimeLeft/1000) / 60;
-        int sec = (int) (teleTimeLeft/1000) % 60;
+    private void updateTele() {
+        int min = (int) (teleTimeLeft / 1000) / 60;
+        int sec = (int) (teleTimeLeft / 1000) % 60;
 
         String timeLeft = String.format(Locale.getDefault(), "%02d:%02d", min, sec);
         teleCountdown.setText(timeLeft);
     }
 
-    private int[] autoScored(){
+    private int[] autoScored() {
         int first = 0;
         int second = 0;
         int third = 0;
         int additional = 0;
 
-        for(int i = 0; i < scoreList.length; i++){
+        for (int i = 0; i < scoreList.length; i++) {
             int count = 0;
 
-            for(int j = 0; j < scoreList[1].length; j++){
-                if(scoreList[i][j]){
+            for (int j = 0; j < scoreList[1].length; j++) {
+                if (scoreList[i][j]) {
                     count++;
                 }
             }
 
-            if(i == 0){
+            if (i == 0) {
                 third = count;
-            }
-            else if(i == 1){
+            } else if (i == 1) {
                 second = count;
-            } else{
+            } else {
                 first = count;
             }
         }
 
-        if(mobility){
+        if (mobility) {
             additional = additional + 3;
         }
-        if(autoEngaged){
+        if (autoEngaged) {
             additional = additional + 12;
         }
-        if(autoNotEngaged){
+        if (autoNotEngaged) {
             additional = additional + 8;
         }
 
-        int[] scores = new int[]{first, second, third, first*2 + second*4 + third*6 + additional};
+        int[] scores = new int[]{first, second, third, first * 2 + second * 4 + third * 6 + additional};
         return scores;
     }
 
-    private int[] teleScored(){
+    private int[] teleScored() {
         int first = 0;
         int second = 0;
         int third = 0;
         int additional = 0;
 
-        for(int i = 0; i < scoreList.length; i++){
+        for (int i = 0; i < scoreList.length; i++) {
             int count = 0;
 
-            for(int j = 0; j < scoreList[1].length; j++){
-                if(scoreList[i][j]){
+            for (int j = 0; j < scoreList[1].length; j++) {
+                if (scoreList[i][j]) {
                     count++;
                 }
             }
 
-            if(i == 0){
+            if (i == 0) {
                 third = count - autoThirdRow;
-            }
-            else if(i == 1){
+            } else if (i == 1) {
                 second = count - autoSecondRow;
-            } else{
+            } else {
                 first = count - autoFirstRow;
             }
         }
 
-        if(autoEngaged){
+        if (autoEngaged) {
             additional = additional + 10;
         }
-        if(autoNotEngaged){
+        if (autoNotEngaged) {
             additional = additional + 6;
         }
 
-        int[] scores = new int[]{first, second, third, first*2 + second*3 + third*5 + additional};
+        int[] scores = new int[]{first, second, third, first * 2 + second * 3 + third * 5 + additional};
         return scores;
     }
-
-    /*private void defineButtons(){
-        three_1.setOnClickListener(row3);
-        three_2.setOnClickListener(row3);
-        three_3.setOnClickListener(row3);
-        three_4.setOnClickListener(row3);
-        three_5.setOnClickListener(row3);
-        three_6.setOnClickListener(row3);
-        three_7.setOnClickListener(row3);
-        three_8.setOnClickListener(row3);
-        three_9.setOnClickListener(row3);
-        two_1.setOnClickListener(row2);
-        two_2.setOnClickListener(row2);
-        two_3.setOnClickListener(row2);
-        two_4.setOnClickListener(row2);
-        two_5.setOnClickListener(row2);
-        two_6.setOnClickListener(row2);
-        two_7.setOnClickListener(row2);
-        two_8.setOnClickListener(row2);
-        two_9.setOnClickListener(row2);
-        one_1.setOnClickListener(row1);
-        one_2.setOnClickListener(row1);
-        one_3.setOnClickListener(row1);
-        one_4.setOnClickListener(row1);
-        one_5.setOnClickListener(row1);
-        one_6.setOnClickListener(row1);
-        one_7.setOnClickListener(row1);
-        one_8.setOnClickListener(row1);
-        one_9.setOnClickListener(row1);
-    }
-
-    private final View.OnClickListener row3 = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (autoRun){
-                if()
-            }else{
-                teleThirdRow++;
-            }
-            updateScore();
-        }
-    };
-
-    private final View.OnClickListener row2 = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (autoRun){
-                autoThirdRow++;
-            }else{
-                teleThirdRow++;
-            }
-            updateScore();
-        }
-    };
-
-    private final View.OnClickListener row1 = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (autoRun){
-                autoThirdRow++;
-            }else{
-                teleThirdRow++;
-            }
-            updateScore();
-        }
-    };*/
-
 }
+
