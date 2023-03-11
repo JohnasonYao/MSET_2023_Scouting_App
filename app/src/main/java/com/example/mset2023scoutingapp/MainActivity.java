@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private Button plus;
     private Button minus;
     private TextView links;
+    String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
 
     private ToggleButton three_1;
     private ToggleButton three_2;
@@ -316,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbyaIAOmk8eiQhRD-Ad3ZDk7wujJVYytCfU3CNumZLUf6mIzhojR6uIAUtmArDi2Klc/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbwz4QzlFUr2-xAVNddE-hSpbQ5V-zPV383X1BEupThLh_DHlxEiK5laLQg2vrvVxlmp/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -326,12 +327,12 @@ public class MainActivity extends AppCompatActivity {
 
                 //    String usn = Integer.toString(i);
 
-                String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
+
 
                 postDataParams.put("name",firstName);
                 postDataParams.put("lastName",lastName);
-                postDataParams.put("matchNumber",matchNumber);
-                postDataParams.put("teamNumber",teamNumber);
+                postDataParams.put("matchNumber",matchNumber.getText().toString());
+                postDataParams.put("teamNumber",teamNumber.getText().toString());
                 postDataParams.put("mobility",mobility);
                 postDataParams.put("autoDockStatus",autoDockStatus);
                 postDataParams.put("autoScore",autoScore);
@@ -340,10 +341,11 @@ public class MainActivity extends AppCompatActivity {
                 postDataParams.put("teleScore",teleScore);
                 postDataParams.put("teleRaw",teleRaw);
                 postDataParams.put("linksScored",linksScored);
+                postDataParams.put("linksScored",linksScored);
                 postDataParams.put("totalScore",totalScore);
                 postDataParams.put("broke",broke);
                 postDataParams.put("comments",comments);
-                postDataParams.put("id",id);
+                //postDataParams.put("id",id);
 
 
                 Log.e("params",postDataParams.toString());
@@ -425,11 +427,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateLinks() {
-        links.setText(linksScored);
+        links.setText(linksScored + "");
     }
 
     private void startAuto() {
-        autoCount = new CountDownTimer(autoTimeLeft, 1) {
+        autoCount = new CountDownTimer(autoTimeLeft, 10) {
             @Override
             public void onTick(long x) {
                 autoTimeLeft = x;
@@ -447,6 +449,7 @@ public class MainActivity extends AppCompatActivity {
                 autoSecondRow = autoScored()[1];
                 autoThirdRow = autoScored()[2];
                 autoScore = autoScored()[3];
+                System.out.println(autoTimeLeft);
             }
         }.start();
         autoRun = true;
@@ -492,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startTele() {
-        teleCount = new CountDownTimer(teleTimeLeft, 1000) {
+        teleCount = new CountDownTimer(teleTimeLeft, 100) {
             @Override
             public void onTick(long x) {
                 teleTimeLeft = x;
@@ -529,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
         int second = 0;
         int third = 0;
         int additional = 0;
-
+        updateScores();
         for (int i = 0; i < scoreList.length; i++) {
             int count = 0;
 
@@ -567,7 +570,7 @@ public class MainActivity extends AppCompatActivity {
         int second = 0;
         int third = 0;
         int additional = 0;
-
+        updateScores();
         for (int i = 0; i < scoreList.length; i++) {
             int count = 0;
 
@@ -595,6 +598,36 @@ public class MainActivity extends AppCompatActivity {
 
         int[] scores = new int[]{first, second, third, first * 2 + second * 3 + third * 5 + additional};
         return scores;
+    }
+
+    private void updateScores(){
+        scoreList[0][0] = three_1.isChecked();
+        scoreList[0][1] = three_2.isChecked();
+        scoreList[0][2] = three_3.isChecked();
+        scoreList[0][3] = three_4.isChecked();
+        scoreList[0][4] = three_5.isChecked();
+        scoreList[0][5] = three_6.isChecked();
+        scoreList[0][6] = three_7.isChecked();
+        scoreList[0][7] = three_8.isChecked();
+        scoreList[0][8] = three_9.isChecked();
+        scoreList[1][0] = two_1.isChecked();
+        scoreList[1][1] = two_2.isChecked();
+        scoreList[1][2] = two_3.isChecked();
+        scoreList[1][3] = two_4.isChecked();
+        scoreList[1][4] = two_5.isChecked();
+        scoreList[1][5] = two_6.isChecked();
+        scoreList[1][6] = two_7.isChecked();
+        scoreList[1][7] = two_8.isChecked();
+        scoreList[1][8] = two_9.isChecked();
+        scoreList[2][0] = one_1.isChecked();
+        scoreList[2][1] = one_2.isChecked();
+        scoreList[2][2] = one_3.isChecked();
+        scoreList[2][3] = one_4.isChecked();
+        scoreList[2][4] = one_5.isChecked();
+        scoreList[2][5] = one_6.isChecked();
+        scoreList[2][6] = one_7.isChecked();
+        scoreList[2][7] = one_8.isChecked();
+        scoreList[2][8] = one_9.isChecked();
     }
 }
 
