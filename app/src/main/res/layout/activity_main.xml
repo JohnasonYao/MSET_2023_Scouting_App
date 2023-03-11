@@ -268,7 +268,7 @@
                 android:id="@+id/three_1"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,1"
                 android:textOn="3,1" />
@@ -277,7 +277,7 @@
                 android:id="@+id/three_2"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="3,2"
                 android:textOn="3,2" />
@@ -285,7 +285,7 @@
                 android:id="@+id/three_3"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,3"
                 android:textOn="3,3" />
@@ -293,7 +293,7 @@
                 android:id="@+id/three_4"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,4"
                 android:textOn="3,4"  />
@@ -301,7 +301,7 @@
                 android:id="@+id/three_5"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="3,5"
                 android:textOn="3,5" />
@@ -309,7 +309,7 @@
                 android:id="@+id/three_6"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,6"
                 android:textOn="3,6" />
@@ -317,7 +317,7 @@
                 android:id="@+id/three_7"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,7"
                 android:textOn="3,7" />
@@ -325,7 +325,7 @@
                 android:id="@+id/three_8"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="3,8"
                 android:textOn="3,8" />
@@ -333,7 +333,7 @@
                 android:id="@+id/three_9"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="3,9"
                 android:textOn="3,9"  />
@@ -347,7 +347,7 @@
                 android:id="@+id/two_1"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="2,1"
                 android:textOn="2,1"  />
@@ -356,7 +356,7 @@
                 android:id="@+id/two_2"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="2,2"
                 android:textOn="2,2"  />
@@ -364,7 +364,7 @@
                 android:id="@+id/two_3"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="2,3"
                 android:textOn="2,3"  />
@@ -372,7 +372,7 @@
                 android:id="@+id/two_4"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="2,4"
                 android:textOn="2,4"  />
@@ -380,7 +380,7 @@
                 android:id="@+id/two_5"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="2,5"
                 android:textOn="2,5"  />
@@ -388,14 +388,14 @@
                 android:id="@+id/two_6"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:textOff="2,6"
                 android:textOn="2,6"  />
             <ToggleButton
                 android:id="@+id/two_7"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="2,7"
                 android:textOn="2,7"  />
@@ -403,7 +403,7 @@
                 android:id="@+id/two_8"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cube"
                 android:checked="false"
                 android:textOff="2,8"
                 android:textOn="2,8"  />
@@ -411,7 +411,7 @@
                 android:id="@+id/two_9"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_color"
+                android:background="@drawable/cone"
                 android:checked="false"
                 android:textOff="2,9"
                 android:textOn="2,9"  />
