@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     private String teleRaw;
     private String comments;
     private int linksScored;
+    private int cycleTime;
+    private int timeStopped;
+    private int placementsMissed;
+    private int defenceRating;
 
     private EditText first;
     private EditText last;
@@ -73,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
     private Button plus;
     private Button minus;
     private TextView links;
+    private Button pluss;
+    private Button minuss;
+    private Button stopped;
+    private TextView missedCount;
+    private EditText defence;
     String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
 
     private ToggleButton three_1;
@@ -207,7 +216,11 @@ public class MainActivity extends AppCompatActivity {
         plus = findViewById(R.id.plus);
         minus = findViewById(R.id.minus);
         links = findViewById(R.id.textView9);
-
+        pluss = findViewById(R.id.plusMissed);
+        minuss = findViewById(R.id.minusMissed);
+        stopped = findViewById(R.id.button);
+        missedCount = findViewById(R.id.textView11);
+        System.out.println("myButton = " + minuss);
         autoCountdown = findViewById(R.id.autoCountdown);
         autoStartStop = findViewById(R.id.autoStartStop);
         autoReset = findViewById(R.id.autoReset);
@@ -227,6 +240,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 linksScored--;
                 updateLinks();
+            }
+        });
+
+        pluss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                placementsMissed--;
+                updatePlace();
+            }
+        });
+
+        minuss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                placementsMissed--;
+                updatePlace();
+            }
+        });
+
+        stopped.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeStopped = (int) (teleTimeLeft / 1000);
+                stopped.setText(timeStopped + " Seconds");
             }
         });
 
@@ -257,8 +294,12 @@ public class MainActivity extends AppCompatActivity {
                 broke = robotBroke.isChecked();
                 totalScore = autoScore + teleScore;
                 comments = Comments.getText().toString();
+                cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / (timeStopped - (int)(teleTimerMilli));
+                defenceRating = Integer.parseInt(defence.getText().toString());
 
                 new SendRequest().execute();
+
+                reset();
             }
         });
 
@@ -317,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbwz4QzlFUr2-xAVNddE-hSpbQ5V-zPV383X1BEupThLh_DHlxEiK5laLQg2vrvVxlmp/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbxFp1ZUmeMFhgBaovhcHsEEe_UE72k5ZyY72Veh7vdURWCLscMU7jFBdfkGDQympKg4/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -345,6 +386,8 @@ public class MainActivity extends AppCompatActivity {
                 postDataParams.put("totalScore",totalScore);
                 postDataParams.put("broke",broke);
                 postDataParams.put("comments",comments);
+                postDataParams.put("cycleTime",cycleTime);
+                postDataParams.put("defenceRating",defenceRating);
                 //postDataParams.put("id",id);
 
 
@@ -428,6 +471,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateLinks() {
         links.setText(linksScored + "");
+    }
+
+    private void updatePlace() {
+        missedCount.setText(placementsMissed + "");
     }
 
     private void startAuto() {
@@ -628,6 +675,52 @@ public class MainActivity extends AppCompatActivity {
         scoreList[2][6] = one_7.isChecked();
         scoreList[2][7] = one_8.isChecked();
         scoreList[2][8] = one_9.isChecked();
+    }
+
+    private void reset(){
+        three_1.setChecked(false);
+        three_2.setChecked(false);
+        three_3.setChecked(false);
+        three_4.setChecked(false);
+        three_5.setChecked(false);
+        three_6.setChecked(false);
+        three_7.setChecked(false);
+        three_8.setChecked(false);
+        three_9.setChecked(false);
+        two_1.setChecked(false);
+        two_2.setChecked(false);
+        two_3.setChecked(false);
+        two_4.setChecked(false);
+        two_5.setChecked(false);
+        two_6.setChecked(false);
+        two_7.setChecked(false);
+        two_8.setChecked(false);
+        two_9.setChecked(false);
+        one_1.setChecked(false);
+        one_2.setChecked(false);
+        one_3.setChecked(false);
+        one_4.setChecked(false);
+        one_5.setChecked(false);
+        one_6.setChecked(false);
+        one_7.setChecked(false);
+        one_8.setChecked(false);
+        one_9.setChecked(false);
+
+        first.setText("");
+        last.setText("");
+        matchNumber.setText("");
+        teamNumber.setText("");
+        Comments.setText("");
+        defence.setText("");
+
+        Mobility.setChecked(false);
+        AutoEngaged.setChecked(false);
+        AutoNotEngaged.setChecked(false);
+        TeleEngaged.setChecked(false);
+        TeleNotEngaged.setChecked(false);
+        robotBroke.setChecked(false);
+
+        linksScored = 0;
     }
 }
 
