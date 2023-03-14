@@ -30,10 +30,10 @@ import javax.net.ssl.HttpsURLConnection;
 
 
 public class MainActivity extends AppCompatActivity {
-    private String firstName;
-    private String lastName;
-    private int match;
-    private int team;
+    private String firstName = "N/a";
+    private String lastName = "N/a";
+    private int match = 0;
+    private int team = 0;
     private boolean mobility;
     private boolean autoEngaged;
     private boolean autoNotEngaged;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private int cycleTime;
     private int timeStopped;
     private int placementsMissed;
-    private int defenceRating;
+    private int defenceRating = 0;
 
     private EditText first;
     private EditText last;
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         pluss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                placementsMissed--;
+                placementsMissed++;
                 updatePlace();
             }
         });
