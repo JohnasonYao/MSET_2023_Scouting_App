@@ -671,13 +671,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/rating"
             android:layout_width="209dp"
             android:layout_height="59dp"
             android:layout_marginStart="256dp"
             android:layout_marginTop="856dp"
             android:ems="10"
-            android:hint="Defence (1-5)"
+            android:hint="Defence (0-5)"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

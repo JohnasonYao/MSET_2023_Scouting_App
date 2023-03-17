@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         matchNumber = findViewById(R.id.matchNumber);
         teamNumber = findViewById(R.id.team);
         Comments = findViewById(R.id.comments);
+        defence = findViewById(R.id.rating);
 
         Mobility = findViewById(R.id.checkBox4);
         AutoNotEngaged = findViewById(R.id.checkBox5);
