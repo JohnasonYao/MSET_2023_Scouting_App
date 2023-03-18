@@ -1,6 +1,11 @@
 package com.example.mset2023scoutingapp;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -299,6 +304,9 @@ public class MainActivity extends AppCompatActivity {
                 defenceRating = Integer.parseInt(defence.getText().toString());
 
                 new SendRequest().execute();
+
+                LocalSave.DBHelper dbHelper = new LocalSave.DBHelper(MainActivity.this);
+                dbHelper.addRecord(firstName, lastName, match, team, mobility, autoRaw, teleRaw, broke, totalScore, comments, cycleTime, defenceRating);
 
                 reset();
             }
