@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycby9Fjz75ZjLVkWpo7Tc_Y6BVbqw6uNSyK8MFuhC3MnbjwPwLcJ8uP1lzvRnnOe8V09L/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbyDfWM-8sB9FYcO17o0o_fDI8mF9NIM83HhI2LEPKyVgCJtyuKP9GEU6D5lZen57cdC/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -423,6 +423,8 @@ public class MainActivity extends AppCompatActivity {
                 //    String usn = Integer.toString(i);
 
                 String[] issa = new String[data.size()];
+                String[] words = new String[] {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+
 
                 for(int i=0; i<data.size(); i++){
                     String join = String.join(",", data.get(i)); // "John,Jane,James"
@@ -430,10 +432,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                System.out.println(issa[0]);
+                for(int i=0; i<issa.length; i++){
+                    postDataParams.put(words[i], issa[i]);
+                }
 
 
-                if(data.size() == 1) {
+
+                /*if(data.size() == 1) {
                     postDataParams.put("one", issa[0]);
                 }else if(data.size() == 2){
                     postDataParams.put("one", issa[0]);
@@ -461,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
                     postDataParams.put("five",issa[4]);
                     postDataParams.put("six",issa[5]);
                     System.out.println(1);
-                }
+                }*/
 
 
                /* postDataParams.put("name",firstName);
