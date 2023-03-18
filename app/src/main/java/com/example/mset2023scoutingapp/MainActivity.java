@@ -80,9 +80,12 @@ public class MainActivity extends AppCompatActivity {
     private Button pluss;
     private Button minuss;
     private Button stopped;
+    private Button upload;
     private TextView missedCount;
     private EditText defence;
+    private EditText driver;
     String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
+    ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
 
     private ToggleButton three_1;
     private ToggleButton three_2;
@@ -205,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         teamNumber = findViewById(R.id.team);
         Comments = findViewById(R.id.comments);
         defence = findViewById(R.id.rating);
+        driver = findViewById(R.id.Driver);
 
         Mobility = findViewById(R.id.checkBox4);
         AutoNotEngaged = findViewById(R.id.checkBox5);
@@ -214,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         robotBroke = findViewById(R.id.checkBox10);
 
         submit = findViewById(R.id.submit);
+        upload = findViewById(R.id.button2);
         plus = findViewById(R.id.plus);
         minus = findViewById(R.id.minus);
         links = findViewById(R.id.textView9);
@@ -227,6 +232,15 @@ public class MainActivity extends AppCompatActivity {
         autoReset = findViewById(R.id.autoReset);
 
         //defineButtons();
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SendRequest().execute();
+                first.setText("");
+                last.setText("");
+            }
+        });
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,10 +285,12 @@ public class MainActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ArrayList<String> list = new ArrayList<String>();
                 firstName = first.getText().toString();
                 lastName = last.getText().toString();
-                match = Integer.parseInt(matchNumber.getText().toString());
-                team = Integer.parseInt(teamNumber.getText().toString());
+                //match = Integer.parseInt(matchNumber.getText().toString());
+                //team = Integer.parseInt(teamNumber.getText().toString());
                 mobility = Mobility.isChecked();
                 if (AutoEngaged.isChecked()) {
                     autoDockStatus = "Engaged";
@@ -290,17 +306,54 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     teleDockStatus = "Not Docked";
                 }
+                if (mobility) {
+                    autoScore = autoScore + 3;
+                }
+                if (autoEngaged) {
+                    autoScore = autoScore + 12;
+                }
+                if (autoNotEngaged) {
+                    autoScore = autoScore + 8;
+                }
+                if (autoEngaged) {
+                    teleScore = teleScore + 10;
+                }
+                if (autoNotEngaged) {
+                    teleScore = teleScore + 6;
+                }
                 autoRaw = autoFirstRow + ":" + autoSecondRow + ":" + autoThirdRow;
                 teleRaw = teleFirstRow + ":" + teleSecondRow + ":" + teleThirdRow;
                 broke = robotBroke.isChecked();
                 totalScore = autoScore + teleScore;
                 comments = Comments.getText().toString();
                 cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / (timeStopped - (int)(teleTimerMilli));
-                defenceRating = Integer.parseInt(defence.getText().toString());
+                //defenceRating = Integer.parseInt(defence.getText().toString());
 
-                new SendRequest().execute();
+                list.add(firstName);
+                list.add(lastName);
+                list.add(matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(String.valueOf(mobility));
+                list.add(autoDockStatus);
+                list.add(autoScore + "");
+                list.add(autoRaw);
+                list.add(teleDockStatus);
+                list.add(teleScore + "");
+                list.add(teleRaw);
+                list.add(linksScored + "");
+                list.add(cycleTime + "");
+                list.add(totalScore + "");
+                list.add(defence.getText().toString() + "");
+                list.add(driver.getText().toString() + "");
+                list.add(String.valueOf(broke));
+                list.add(comments);
+
+                data.add(new ArrayList<>(list));
+                System.out.println(list);
+                list.clear();
 
                 reset();
+                System.out.println(data);
             }
         });
 
@@ -359,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbxFp1ZUmeMFhgBaovhcHsEEe_UE72k5ZyY72Veh7vdURWCLscMU7jFBdfkGDQympKg4/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycby9Fjz75ZjLVkWpo7Tc_Y6BVbqw6uNSyK8MFuhC3MnbjwPwLcJ8uP1lzvRnnOe8V09L/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -369,9 +422,49 @@ public class MainActivity extends AppCompatActivity {
 
                 //    String usn = Integer.toString(i);
 
+                String[] issa = new String[data.size()];
+
+                for(int i=0; i<data.size(); i++){
+                    String join = String.join(",", data.get(i)); // "John,Jane,James"
+                    issa[i] = join;
+                }
 
 
-                postDataParams.put("name",firstName);
+                System.out.println(issa[0]);
+
+
+                if(data.size() == 1) {
+                    postDataParams.put("one", issa[0]);
+                }else if(data.size() == 2){
+                    postDataParams.put("one", issa[0]);
+                    postDataParams.put("two",issa[1]);
+                }else if(data.size() == 3){
+                    postDataParams.put("one", issa[0]);
+                    postDataParams.put("two",issa[1]);
+                    postDataParams.put("three",issa[2]);
+                }else if(data.size() == 4){
+                    postDataParams.put("one", issa[0]);
+                    postDataParams.put("two",issa[1]);
+                    postDataParams.put("three",issa[2]);
+                    postDataParams.put("four",issa[3]);
+                }else if(data.size() == 5){
+                    postDataParams.put("one", issa[0]);
+                    postDataParams.put("two",issa[1]);
+                    postDataParams.put("three",issa[2]);
+                    postDataParams.put("four",issa[3]);
+                    postDataParams.put("five",issa[4]);
+                }else{
+                    postDataParams.put("one", issa[0]);
+                    postDataParams.put("two",issa[1]);
+                    postDataParams.put("three",issa[2]);
+                    postDataParams.put("four",issa[3]);
+                    postDataParams.put("five",issa[4]);
+                    postDataParams.put("six",issa[5]);
+                    System.out.println(1);
+                }
+
+
+               /* postDataParams.put("name",firstName);
                 postDataParams.put("lastName",lastName);
                 postDataParams.put("matchNumber",matchNumber.getText().toString());
                 postDataParams.put("teamNumber",teamNumber.getText().toString());
@@ -389,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                 postDataParams.put("comments",comments);
                 postDataParams.put("cycleTime",cycleTime);
                 postDataParams.put("defenceRating",defenceRating);
-                //postDataParams.put("id",id);
+                postDataParams.put("id",id);*/
 
 
                 Log.e("params",postDataParams.toString());
@@ -599,15 +692,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (mobility) {
-            additional = additional + 3;
-        }
-        if (autoEngaged) {
-            additional = additional + 12;
-        }
-        if (autoNotEngaged) {
-            additional = additional + 8;
-        }
 
         int[] scores = new int[]{first, second, third, first * 2 + second * 4 + third * 6 + additional};
         return scores;
@@ -637,12 +721,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (autoEngaged) {
-            additional = additional + 10;
-        }
-        if (autoNotEngaged) {
-            additional = additional + 6;
-        }
+
 
         int[] scores = new int[]{first, second, third, first * 2 + second * 3 + third * 5 + additional};
         return scores;
@@ -707,12 +786,12 @@ public class MainActivity extends AppCompatActivity {
         one_8.setChecked(false);
         one_9.setChecked(false);
 
-        first.setText("");
-        last.setText("");
+
         matchNumber.setText("");
         teamNumber.setText("");
         Comments.setText("");
         defence.setText("");
+        driver.setText("");
 
         Mobility.setChecked(false);
         AutoEngaged.setChecked(false);
@@ -722,6 +801,15 @@ public class MainActivity extends AppCompatActivity {
         robotBroke.setChecked(false);
 
         linksScored = 0;
+        updateLinks();
+        placementsMissed = 0;
+        updatePlace();
+        timeStopped = 0;
+        stopped.setText("STARTED DOCKING");
+        cycleTime = 0;
+
+        resetAuto();
+        resetTele();
     }
 }
 

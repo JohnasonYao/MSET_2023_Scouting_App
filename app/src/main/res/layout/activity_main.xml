@@ -547,8 +547,8 @@
             android:id="@+id/submit"
             android:layout_width="131dp"
             android:layout_height="55dp"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="936dp"
+            android:layout_marginStart="436dp"
+            android:layout_marginTop="860dp"
             android:text="submit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -569,7 +569,7 @@
             android:id="@+id/checkBox10"
             android:layout_width="181dp"
             android:layout_height="60dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="856dp"
             android:text="Robot broke down"
             app:layout_constraintStart_toStartOf="parent"
@@ -579,8 +579,8 @@
             android:id="@+id/comments"
             android:layout_width="195dp"
             android:layout_height="60dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="936dp"
+            android:layout_marginStart="212dp"
+            android:layout_marginTop="856dp"
             android:ems="10"
             android:hint="Additional Comments"
             android:inputType="textPersonName"
@@ -674,11 +674,33 @@
             android:id="@+id/rating"
             android:layout_width="209dp"
             android:layout_height="59dp"
-            android:layout_marginStart="256dp"
-            android:layout_marginTop="856dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="932dp"
             android:ems="10"
             android:hint="Defence (0-5)"
             android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/Driver"
+            android:layout_width="185dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="236dp"
+            android:layout_marginTop="928dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Driver Rating (0-5)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="131dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="436dp"
+            android:layout_marginTop="932dp"
+            android:text="upload"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
