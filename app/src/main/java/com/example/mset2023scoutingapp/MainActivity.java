@@ -60,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
     private int cycleTime;
     private int timeStopped;
     private int placementsMissed;
+    private int scoreNumber = 1;
     private int defenceRating = 0;
+    private int lastTime = 0;
+    private String state = "Pre-load";
+    private String link = "N";
 
     private EditText first;
     private EditText last;
@@ -84,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView missedCount;
     private EditText defence;
     private EditText driver;
+    private Button groundIntake;
+    private Button leftSubstation;
+    private Button rightSubstation;
+    private Button lowerSubstation;
+    private Button placed;
+    private Button dropped;
+    private Button Link;
     String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
     ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
 
@@ -116,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
     private ToggleButton one_9;
 
     private boolean[][] scoreList = new boolean[3][9];
+    private boolean[][] before = new boolean[3][9];
+    private ArrayList<ArrayList<String>> scores = new ArrayList<ArrayList<String>>();
 
 
     private static final long autoTimerMilli = 15000;
@@ -196,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
         scoreList[2][7] = one_8.isChecked();
         scoreList[2][8] = one_9.isChecked();
 
+        before = scoreList;
+
         //boolean[][] scoreList = {{three_1.isChecked(), three_2.isChecked(), three_3.isChecked(), three_4.isChecked(), three_5.isChecked(), three_6.isChecked(), three_7.isChecked(), three_8.isChecked(), three_9.isChecked()},
         //{two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
         //{one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
@@ -231,7 +246,66 @@ public class MainActivity extends AppCompatActivity {
         autoStartStop = findViewById(R.id.autoStartStop);
         autoReset = findViewById(R.id.autoReset);
 
+        groundIntake = findViewById(R.id.G);
+        leftSubstation = findViewById(R.id.SL);
+        rightSubstation = findViewById(R.id.SR);
+        lowerSubstation = findViewById(R.id.LS);
+        placed = findViewById(R.id.Placed);
+        dropped = findViewById(R.id.Dropped);
+        Link = findViewById(R.id.link);
         //defineButtons();
+
+        groundIntake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "G";
+            }
+        });
+
+        leftSubstation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "2L";
+            }
+        });
+
+        rightSubstation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "2R";
+            }
+        });
+
+        dropped.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "G";
+                addScore("D");
+            }
+        });
+
+        placed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "G";
+                addScore("S");
+            }
+        });
+
+        lowerSubstation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = "1";
+            }
+        });
+
+        Link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                link = "Y";
+                addScore("S");
+            }
+        });
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 last.setText("");
             }
         });
+
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                scoreNumber = 0;
                 ArrayList<String> list = new ArrayList<String>();
                 firstName = first.getText().toString();
                 lastName = last.getText().toString();
@@ -326,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
                 broke = robotBroke.isChecked();
                 totalScore = autoScore + teleScore;
                 comments = Comments.getText().toString();
-                cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / (timeStopped - (int)(teleTimerMilli));
+                cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / ((int)(teleTimerMilli) - timeStopped);
                 //defenceRating = Integer.parseInt(defence.getText().toString());
 
                 list.add(firstName);
@@ -422,20 +497,20 @@ public class MainActivity extends AppCompatActivity {
 
                 //    String usn = Integer.toString(i);
 
-                String[] issa = new String[data.size()];
-                String[] words = new String[] {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+                String[] issa = new String[scores.size()];
+                String joined = "";
 
 
-                for(int i=0; i<data.size(); i++){
-                    String join = String.join(",", data.get(i)); // "John,Jane,James"
+                for(int i=0; i<scores.size(); i++){
+                    String join = String.join(",", scores.get(i)); //
                     issa[i] = join;
                 }
 
-
-                for(int i=0; i<issa.length; i++){
-                    postDataParams.put(words[i], issa[i]);
+                for(int i=0; i<scores.get(0).size(); i++){
+                    joined = String.join(".", issa[i]);
                 }
 
+                postDataParams.put("one", joined);
 
 
                 /*if(data.size() == 1) {
@@ -566,6 +641,62 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return result.toString();
+    }
+
+    private void addScore(String x){
+        scoreNumber++;
+        ArrayList<String> list = new ArrayList<String>();
+        int[] result = change(before, scoreList);
+        String piece = "";
+        if(result[1] == 3){
+            piece = "hybrid";
+        } else if(result[2] == 2 || result[2] == 5 || result[2] == 8){
+            piece = "cube";
+        }else{
+            piece = "cone";
+        }
+        String at = "";
+        if(autoRun == true){
+            at = "auto";
+        }else if(teleRun == true){
+            at = "tele";
+        }
+        firstName = first.getText().toString();
+        lastName = last.getText().toString();
+        list.add("Qual " + matchNumber.getText().toString() + "");
+        list.add(teamNumber.getText().toString() + "");
+        list.add(firstName + lastName);
+        list.add(at);
+        list.add(state);
+        list.add(scoreNumber + "");
+        list.add("GP");
+        list.add((135 - teleTimeLeft/1000) + "");
+        list.add(((135 - teleTimeLeft/1000) - (lastTime) )+ "");
+        list.add(x);
+        list.add(link);
+        list.add(piece);
+        list.add(result[1] + "");
+        list.add(result[2] + "");
+        link = "N";
+        before = scoreList;
+        lastTime = (int)(teleTimeLeft/1000);
+
+        scores.add(new ArrayList<>(list));
+        System.out.println(list);
+        list.clear();
+    }
+
+    public int[] change(boolean[][] before, boolean[][] after) {
+        updateScores();
+        for (int i = 0; i < before.length; i++) {
+            for (int j = 0; j < before[0].length; j++) {
+                if (before[i][j] != after[i][j]) {
+                    int[] result = {i + 1, j + 1};
+                    return result;
+                }
+            }
+        }
+        return null;
     }
 
     private void updateLinks() {
