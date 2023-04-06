@@ -27,6 +27,8 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.stream.Collectors;
+
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -62,11 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private int cycleTime;
     private int timeStopped;
     private int placementsMissed;
-    private int scoreNumber = 1;
+    private int scoreNumber = 0;
     private int defenceRating = 0;
     private int lastTime = 0;
     private String state = "Pre-load";
     private String link = "N";
+    private String joined = "";
 
     private EditText first;
     private EditText last;
@@ -286,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
         dropped.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                state = "G";
                 addScore("D");
             }
         });
@@ -294,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
         placed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                state = "G";
                 addScore("S");
             }
         });
@@ -318,6 +319,24 @@ public class MainActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String[] issa = new String[scores.size()];
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < scores.size(); i++) {
+                    ArrayList<String> subList = scores.get(i);
+                    for (int j = 0; j < subList.size(); j++) {
+                        String element = subList.get(j);
+                        sb.append(element);
+                        if (j < subList.size() - 1) {
+                            sb.append(",");
+                        }
+                    }
+                    if (i < scores.size() - 1) {
+                        sb.append(".");
+                    }
+                }
+                joined = sb.toString();
+                System.out.println("1" + joined);
                 new SendRequest().execute();
                 first.setText("");
                 last.setText("");
@@ -409,7 +428,15 @@ public class MainActivity extends AppCompatActivity {
                 broke = robotBroke.isChecked();
                 totalScore = autoScore + teleScore;
                 comments = Comments.getText().toString();
+<<<<<<< Updated upstream
                 cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / ((int)(teleTimerMilli) - timeStopped);
+=======
+<<<<<<< HEAD
+                cycleTime = (timeStopped - (int)(teleTimerMilli)) / (teleFirstRow + teleSecondRow + teleThirdRow);
+=======
+                cycleTime = (teleFirstRow + teleSecondRow + teleThirdRow) / ((int)(teleTimerMilli) - timeStopped);
+>>>>>>> 0ea39d7440d240fd0db2987eae91b311b59aac0b
+>>>>>>> Stashed changes
                 //defenceRating = Integer.parseInt(defence.getText().toString());
 
                 list.add(firstName);
@@ -493,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbz9ownfsX1WcyHd82tpaVPLTXj4w8TdO6UtlMOxX04PtqxBBte7A5kUcMPqXH5BSH3g/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbwoBtBQyuMjve3kE_roIvh4Axze66jFV4G4nSGc7QjwqKlgNQLZ9kBu1h5Jc1U1IWo/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -502,23 +529,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //    String usn = Integer.toString(i);
-
-                String[] issa = new String[scores.size()];
-                String joined = "";
-
-
-                for(int i=0; i<scores.size(); i++){
-                    String join = String.join(",", scores.get(i)); //
-                    issa[i] = join;
-                }
-
-                for(int i=0; i<scores.get(0).size(); i++){
-                    joined = String.join(".", issa[i]);
-                }
                 System.out.println(joined);
                 postDataParams.put("one", joined);
-
-
 
                 /*if(data.size() == 1) {
                     postDataParams.put("one", issa[0]);
@@ -547,7 +559,6 @@ public class MainActivity extends AppCompatActivity {
                     postDataParams.put("four",issa[3]);
                     postDataParams.put("five",issa[4]);
                     postDataParams.put("six",issa[5]);
-                    System.out.println(1);
                 }*/
 
 
