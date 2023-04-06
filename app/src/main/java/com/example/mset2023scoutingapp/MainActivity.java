@@ -1,6 +1,8 @@
 package com.example.mset2023scoutingapp;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -209,13 +211,16 @@ public class MainActivity extends AppCompatActivity {
         scoreList[2][7] = one_8.isChecked();
         scoreList[2][8] = one_9.isChecked();
 
-        before = scoreList;
+        for (int i = 0; i < before.length; i++) {
+            for (int j = 0; j < before[0].length; j++) {
+                before[i][j] = scoreList[i][j];
+            }
+            System.out.println();
+        }
 
         //boolean[][] scoreList = {{three_1.isChecked(), three_2.isChecked(), three_3.isChecked(), three_4.isChecked(), three_5.isChecked(), three_6.isChecked(), three_7.isChecked(), three_8.isChecked(), three_9.isChecked()},
         //{two_1.isChecked(), two_2.isChecked(), two_3.isChecked(), two_4.isChecked(), two_5.isChecked(), two_6.isChecked(), two_7.isChecked(), two_8.isChecked(), two_9.isChecked()},
         //{one_1.isChecked(), one_2.isChecked(), one_3.isChecked(), one_4.isChecked(), one_5.isChecked(), one_6.isChecked(), one_7.isChecked(), one_8.isChecked(), one_9.isChecked()}};
-        System.out.println(scoreList.length);
-        System.out.println(scoreList[0].length);
 
         first = findViewById(R.id.first);
         last = findViewById(R.id.last);
@@ -241,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
         minuss = findViewById(R.id.minusMissed);
         stopped = findViewById(R.id.button);
         missedCount = findViewById(R.id.textView11);
-        System.out.println("myButton = " + minuss);
         autoCountdown = findViewById(R.id.autoCountdown);
         autoStartStop = findViewById(R.id.autoStartStop);
         autoReset = findViewById(R.id.autoReset);
@@ -259,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "G";
+                groundIntake.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -266,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "2L";
+                leftSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -273,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "2R";
+                rightSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -296,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "1";
+                lowerSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -361,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 scoreNumber = 0;
-                ArrayList<String> list = new ArrayList<String>();
+                /*ArrayList<String> list = new ArrayList<String>();
                 firstName = first.getText().toString();
                 lastName = last.getText().toString();
                 //match = Integer.parseInt(matchNumber.getText().toString());
@@ -424,11 +432,9 @@ public class MainActivity extends AppCompatActivity {
                 list.add(comments);
 
                 data.add(new ArrayList<>(list));
-                System.out.println(list);
-                list.clear();
+                list.clear();*/
 
                 reset();
-                System.out.println(data);
             }
         });
 
@@ -487,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbyDfWM-8sB9FYcO17o0o_fDI8mF9NIM83HhI2LEPKyVgCJtyuKP9GEU6D5lZen57cdC/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbz9ownfsX1WcyHd82tpaVPLTXj4w8TdO6UtlMOxX04PtqxBBte7A5kUcMPqXH5BSH3g/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
@@ -509,8 +515,9 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0; i<scores.get(0).size(); i++){
                     joined = String.join(".", issa[i]);
                 }
-
+                System.out.println(joined);
                 postDataParams.put("one", joined);
+
 
 
                 /*if(data.size() == 1) {
@@ -644,21 +651,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addScore(String x){
+        rightSubstation.setBackgroundColor(Color.parseColor("#808080"));
+        leftSubstation.setBackgroundColor(Color.parseColor("#808080"));
+        groundIntake.setBackgroundColor(Color.parseColor("#808080"));
+        lowerSubstation.setBackgroundColor(Color.parseColor("#808080"));
         scoreNumber++;
         ArrayList<String> list = new ArrayList<String>();
+        updateScores();
         int[] result = change(before, scoreList);
         String piece = "";
-        if(result[1] == 3){
+        if(result[0] == 3){
             piece = "hybrid";
-        } else if(result[2] == 2 || result[2] == 5 || result[2] == 8){
+        } else if(result[1] == 2 || result[1] == 5 || result[1] == 8){
             piece = "cube";
         }else{
             piece = "cone";
         }
         String at = "";
-        if(autoRun == true){
+        if(autoRun){
             at = "auto";
-        }else if(teleRun == true){
+        }else if(teleRun){
             at = "tele";
         }
         firstName = first.getText().toString();
@@ -671,15 +683,20 @@ public class MainActivity extends AppCompatActivity {
         list.add(scoreNumber + "");
         list.add("GP");
         list.add((135 - teleTimeLeft/1000) + "");
-        list.add(((135 - teleTimeLeft/1000) - (lastTime) )+ "");
+        list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
         list.add(x);
         list.add(link);
         list.add(piece);
+        list.add(result[0] + "");
         list.add(result[1] + "");
-        list.add(result[2] + "");
         link = "N";
-        before = scoreList;
-        lastTime = (int)(teleTimeLeft/1000);
+        for (int i = 0; i < before.length; i++) {
+            for (int j = 0; j < before[0].length; j++) {
+                before[i][j] = scoreList[i][j];
+            }
+            System.out.println();
+        }
+        lastTime = 135 - (int)(teleTimeLeft/1000);
 
         scores.add(new ArrayList<>(list));
         System.out.println(list);
@@ -687,7 +704,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int[] change(boolean[][] before, boolean[][] after) {
-        updateScores();
         for (int i = 0; i < before.length; i++) {
             for (int j = 0; j < before[0].length; j++) {
                 if (before[i][j] != after[i][j]) {
