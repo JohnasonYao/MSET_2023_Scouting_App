@@ -67,21 +67,24 @@ public class MainActivity extends AppCompatActivity {
     private int scoreNumber = 0;
     private int defenceRating = 0;
     private int lastTime = 0;
+    private int lastLastTime = 0;
     private String state = "Pre-load";
     private String link = "N";
     private String joined = "";
+    private String color = "";
 
     private EditText first;
     private EditText last;
     private EditText matchNumber;
     private EditText teamNumber;
     private EditText Comments;
-    private CheckBox Mobility;
-    private CheckBox AutoNotEngaged;
-    private CheckBox AutoEngaged;
-    private CheckBox TeleNotEngaged;
-    private CheckBox TeleEngaged;
-    private CheckBox robotBroke;
+    private EditText allianceColor;
+    private ToggleButton Mobility;
+    private ToggleButton AutoNotEngaged;
+    private ToggleButton AutoEngaged;
+    private ToggleButton TeleNotEngaged;
+    private ToggleButton TeleEngaged;
+    private ToggleButton robotBroke;
     private Button submit;
     private Button plus;
     private Button minus;
@@ -93,15 +96,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView missedCount;
     private EditText defence;
     private EditText driver;
-    private Button groundIntake;
-    private Button leftSubstation;
-    private Button rightSubstation;
-    private Button lowerSubstation;
+    private ToggleButton groundIntake;
+    private ToggleButton leftSubstation;
+    private ToggleButton rightSubstation;
+    private ToggleButton lowerSubstation;
     private Button placed;
     private Button dropped;
     private Button Link;
+    private Button clear;
+    private Button undo;
     String id= "1K1Aro1oflQZnmGBwDe1uzijedfr5qqkGu1Qq0OAf1Tc";
     ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+    int[] result = {0,0};
 
     private ToggleButton three_1;
     private ToggleButton three_2;
@@ -229,26 +235,28 @@ public class MainActivity extends AppCompatActivity {
         last = findViewById(R.id.last);
         matchNumber = findViewById(R.id.matchNumber);
         teamNumber = findViewById(R.id.team);
-        Comments = findViewById(R.id.comments);
+        /*Comments = findViewById(R.id.comments);
         defence = findViewById(R.id.rating);
-        driver = findViewById(R.id.Driver);
+        driver = findViewById(R.id.Driver);*/
 
         Mobility = findViewById(R.id.checkBox4);
         AutoNotEngaged = findViewById(R.id.checkBox5);
         AutoEngaged = findViewById(R.id.checkBox6);
         TeleNotEngaged = findViewById(R.id.checkBox7);
         TeleEngaged = findViewById(R.id.checkBox9);
-        robotBroke = findViewById(R.id.checkBox10);
+        allianceColor = findViewById(R.id.color);
+        clear = findViewById(R.id.clear);
+        undo = findViewById(R.id.button3);
 
         submit = findViewById(R.id.submit);
         upload = findViewById(R.id.button2);
-        plus = findViewById(R.id.plus);
+        /*plus = findViewById(R.id.plus);
         minus = findViewById(R.id.minus);
         links = findViewById(R.id.textView9);
         pluss = findViewById(R.id.plusMissed);
         minuss = findViewById(R.id.minusMissed);
         stopped = findViewById(R.id.button);
-        missedCount = findViewById(R.id.textView11);
+        missedCount = findViewById(R.id.textView11);*/
         autoCountdown = findViewById(R.id.autoCountdown);
         autoStartStop = findViewById(R.id.autoStartStop);
         autoReset = findViewById(R.id.autoReset);
@@ -262,11 +270,30 @@ public class MainActivity extends AppCompatActivity {
         Link = findViewById(R.id.link);
         //defineButtons();
 
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scores.clear();
+                reset();
+                first.setText("");
+                last.setText("");
+            }
+        });
+
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scores.remove(scores.size() - 1);
+                lastTime = lastLastTime;
+                scoreList[result[0] - 1][result[1] - 1] = false;
+                matchGrid();
+            }
+        });
+
         groundIntake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 state = "G";
-                groundIntake.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -274,7 +301,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "2L";
-                leftSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -282,7 +308,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "2R";
-                rightSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -290,6 +315,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addScore("D");
+                scoreList[result[0] - 1][result[1] - 1] = false;
+                matchGrid();
             }
         });
 
@@ -304,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 state = "1";
-                lowerSubstation.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
 
@@ -313,6 +339,141 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 link = "Y";
                 addScore("S");
+            }
+        });
+
+        Mobility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreNumber ++;
+                ArrayList<String> list = new ArrayList<String>();
+                firstName = first.getText().toString();
+                lastName = last.getText().toString();
+                list.add("Qual " + matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(allianceColor.getText().toString() + "");
+                list.add(firstName + " " + lastName);
+                list.add("Auto");
+                list.add("Mobility");
+                list.add(scoreNumber + "");
+                list.add("Mobility");
+                list.add((135 - teleTimeLeft/1000) + "");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+
+                scores.add(list);
+            }
+        });
+
+        AutoEngaged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreNumber ++;
+                ArrayList<String> list = new ArrayList<String>();
+                firstName = first.getText().toString();
+                lastName = last.getText().toString();
+                list.add("Qual " + matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(allianceColor.getText().toString() + "");
+                list.add(firstName + " " + lastName);
+                list.add("Auto");
+                list.add("Charge Station");
+                list.add(scoreNumber + "");
+                list.add("Engaged");
+                list.add((135 - teleTimeLeft/1000) + "");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+
+                scores.add(list);
+            }
+        });
+
+        TeleEngaged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreNumber ++;
+                ArrayList<String> list = new ArrayList<String>();
+                firstName = first.getText().toString();
+                lastName = last.getText().toString();
+                list.add("Qual " + matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(allianceColor.getText().toString() + "");
+                list.add(firstName + " " + lastName);
+                list.add("Tele");
+                list.add("Charge Station");
+                list.add(scoreNumber + "");
+                list.add("Engaged");
+                list.add((135 - teleTimeLeft/1000) + "");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+
+                scores.add(list);
+            }
+        });
+
+        TeleNotEngaged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreNumber ++;
+                ArrayList<String> list = new ArrayList<String>();
+                firstName = first.getText().toString();
+                lastName = last.getText().toString();
+                list.add("Qual " + matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(allianceColor.getText().toString() + "");
+                list.add(firstName + " " + lastName);
+                list.add("Tele");
+                list.add("Charge Station");
+                list.add(scoreNumber + "");
+                list.add("Engaged");
+                list.add((135 - teleTimeLeft/1000) + "");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+
+                scores.add(list);
+            }
+        });
+
+        AutoNotEngaged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreNumber ++;
+                ArrayList<String> list = new ArrayList<String>();
+                firstName = first.getText().toString();
+                lastName = last.getText().toString();
+                list.add("Qual " + matchNumber.getText().toString() + "");
+                list.add(teamNumber.getText().toString() + "");
+                list.add(allianceColor.getText().toString() + "");
+                list.add(firstName + " " + lastName);
+                list.add("Auto");
+                list.add("Charge Station");
+                list.add(scoreNumber + "");
+                list.add("Not Engaged");
+                list.add((135 - teleTimeLeft/1000) + "");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+                list.add("");
+
+                scores.add(list);
             }
         });
 
@@ -344,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        plus.setOnClickListener(new View.OnClickListener() {
+        /*plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 linksScored++;
@@ -382,7 +543,7 @@ public class MainActivity extends AppCompatActivity {
                 timeStopped = (int) (teleTimeLeft / 1000);
                 stopped.setText(timeStopped + " Seconds");
             }
-        });
+        });*/
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -662,14 +823,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addScore(String x){
-        rightSubstation.setBackgroundColor(Color.parseColor("#808080"));
-        leftSubstation.setBackgroundColor(Color.parseColor("#808080"));
-        groundIntake.setBackgroundColor(Color.parseColor("#808080"));
-        lowerSubstation.setBackgroundColor(Color.parseColor("#808080"));
+        rightSubstation.setChecked(false);
+        leftSubstation.setChecked(false);
+        groundIntake.setChecked(false);
+        lowerSubstation.setChecked(false);
         scoreNumber++;
         ArrayList<String> list = new ArrayList<String>();
         updateScores();
-        int[] result = change(before, scoreList);
+        result = change(before, scoreList);
         String piece = "";
         if(result[0] == 3){
             piece = "hybrid";
@@ -688,7 +849,8 @@ public class MainActivity extends AppCompatActivity {
         lastName = last.getText().toString();
         list.add("Qual " + matchNumber.getText().toString() + "");
         list.add(teamNumber.getText().toString() + "");
-        list.add(firstName + lastName);
+        list.add(allianceColor.getText().toString() + "");
+        list.add(firstName + " " + lastName);
         list.add(at);
         list.add(state);
         list.add(scoreNumber + "");
@@ -707,6 +869,7 @@ public class MainActivity extends AppCompatActivity {
             }
             System.out.println();
         }
+        lastLastTime = lastTime;
         lastTime = 135 - (int)(teleTimeLeft/1000);
 
         scores.add(new ArrayList<>(list));
@@ -718,8 +881,8 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < before.length; i++) {
             for (int j = 0; j < before[0].length; j++) {
                 if (before[i][j] != after[i][j]) {
-                    int[] result = {i + 1, j + 1};
-                    return result;
+                    int[] resultt = {i + 1, j + 1};
+                    return resultt;
                 }
             }
         }
@@ -754,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
                 autoSecondRow = autoScored()[1];
                 autoThirdRow = autoScored()[2];
                 autoScore = autoScored()[3];
-                System.out.println(autoTimeLeft);
+                startTele();
             }
         }.start();
         autoRun = true;
@@ -921,6 +1084,36 @@ public class MainActivity extends AppCompatActivity {
         scoreList[2][8] = one_9.isChecked();
     }
 
+    private void matchGrid(){
+        three_1.setChecked(scoreList[0][0]);
+        three_2.setChecked(scoreList[0][1]);
+        three_3.setChecked(scoreList[0][2]);
+        three_4.setChecked(scoreList[0][3]);
+        three_5.setChecked(scoreList[0][4]);
+        three_6.setChecked(scoreList[0][5]);
+        three_7.setChecked(scoreList[0][6]);
+        three_8.setChecked(scoreList[0][7]);
+        three_9.setChecked(scoreList[0][8]);
+        two_1.setChecked(scoreList[1][0]);
+        two_2.setChecked(scoreList[1][1]);
+        two_3.setChecked(scoreList[1][2]);
+        two_4.setChecked(scoreList[1][3]);
+        two_5.setChecked(scoreList[1][4]);
+        two_6.setChecked(scoreList[1][5]);
+        two_7.setChecked(scoreList[1][6]);
+        two_8.setChecked(scoreList[1][7]);
+        two_9.setChecked(scoreList[1][8]);
+        one_1.setChecked(scoreList[2][0]);
+        one_2.setChecked(scoreList[2][1]);
+        one_3.setChecked(scoreList[2][2]);
+        one_4.setChecked(scoreList[2][3]);
+        one_5.setChecked(scoreList[2][4]);
+        one_6.setChecked(scoreList[2][5]);
+        one_7.setChecked(scoreList[2][6]);
+        one_8.setChecked(scoreList[2][7]);
+        one_9.setChecked(scoreList[2][8]);
+    }
+
     private void reset(){
         three_1.setChecked(false);
         three_2.setChecked(false);
@@ -953,24 +1146,18 @@ public class MainActivity extends AppCompatActivity {
 
         matchNumber.setText("");
         teamNumber.setText("");
-        Comments.setText("");
-        defence.setText("");
-        driver.setText("");
+        allianceColor.setText("");
+
+        groundIntake.setChecked(false);
+        lowerSubstation.setChecked(false);
+        leftSubstation.setChecked(false);
+        rightSubstation.setChecked(false);
 
         Mobility.setChecked(false);
         AutoEngaged.setChecked(false);
         AutoNotEngaged.setChecked(false);
         TeleEngaged.setChecked(false);
         TeleNotEngaged.setChecked(false);
-        robotBroke.setChecked(false);
-
-        linksScored = 0;
-        updateLinks();
-        placementsMissed = 0;
-        updatePlace();
-        timeStopped = 0;
-        stopped.setText("STARTED DOCKING");
-        cycleTime = 0;
 
         resetAuto();
         resetTele();
