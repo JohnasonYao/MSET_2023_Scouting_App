@@ -723,7 +723,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        return null;
+        int[] zero = {0, 0};
+        return zero;
     }
 
     private void updateLinks() {
