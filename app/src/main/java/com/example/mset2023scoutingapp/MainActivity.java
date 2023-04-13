@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private String state = "Pre-load";
     private String link = "N";
     private String joined = "";
+    private String lastJoined = "";
     private String color = "";
 
     private EditText first;
@@ -497,10 +498,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 joined = sb.toString();
-                System.out.println("1" + joined);
-                new SendRequest().execute();
-                first.setText("");
-                last.setText("");
+                if (joined != lastJoined) {
+                    new SendRequest().execute();
+                    first.setText("");
+                    last.setText("");
+                }
+                lastJoined = joined;
             }
         });
 
@@ -856,7 +859,11 @@ public class MainActivity extends AppCompatActivity {
         list.add(scoreNumber + "");
         list.add("GP");
         list.add((135 - teleTimeLeft/1000) + "");
-        list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
+        if (((135 - (int)teleTimeLeft/1000) - lastTime) < 0){
+            list.add((135 - teleTimeLeft/1000) + "");
+        } else{
+            list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
+        }
         list.add(x);
         list.add(link);
         list.add(piece);
