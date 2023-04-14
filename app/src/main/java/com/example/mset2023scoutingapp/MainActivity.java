@@ -852,11 +852,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(scoreNumber + "");
         list.add("GP");
         list.add((135 - teleTimeLeft/1000) + "");
-        if (((135 - (int)teleTimeLeft/1000) - lastTime) < 0){
-            list.add((135 - teleTimeLeft/1000) + "");
-        } else{
-            list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
-        }
+        list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
         list.add(x);
         list.add(link);
         list.add(piece);
