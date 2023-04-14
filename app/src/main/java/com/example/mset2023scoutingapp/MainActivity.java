@@ -264,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
 
         groundIntake = findViewById(R.id.G);
         leftSubstation = findViewById(R.id.SL);
-        rightSubstation = findViewById(R.id.SR);
         lowerSubstation = findViewById(R.id.LS);
         placed = findViewById(R.id.Placed);
         dropped = findViewById(R.id.Dropped);
@@ -301,16 +300,10 @@ public class MainActivity extends AppCompatActivity {
         leftSubstation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                state = "2L";
+                state = "DS";
             }
         });
 
-        rightSubstation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                state = "2R";
-            }
-        });
 
         dropped.setOnClickListener(new View.OnClickListener() {
             @Override

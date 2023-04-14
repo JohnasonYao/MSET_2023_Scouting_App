@@ -225,18 +225,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:ems="10"
-        android:id="@+id/team"
-        android:inputType="number"
-        android:layout_height="66dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="100dp"
+        <EditText
+            android:id="@+id/team"
+            android:layout_width="162dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="228dp"
+            android:layout_marginTop="100dp"
+            android:ems="10"
 
-        android:layout_width="162dp"
-        android:hint="Team Number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:hint="Team Number"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TableLayout
             android:id="@+id/tableLayout"
@@ -547,20 +547,8 @@
             android:layout_marginStart="140dp"
             android:layout_marginTop="184dp"
             android:background="@drawable/button_color"
-            android:textOff="Left Substation"
-            android:textOn="Left Substation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ToggleButton
-            android:id="@+id/SR"
-            android:layout_width="113dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="276dp"
-            android:layout_marginTop="184dp"
-            android:background="@drawable/button_color"
-            android:textOff="Right Substation"
-            android:textOn="Right Substation"
+            android:textOff="Double Substation"
+            android:textOn="Double Substation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -568,7 +556,7 @@
             android:id="@+id/LS"
             android:layout_width="111dp"
             android:layout_height="54dp"
-            android:layout_marginStart="408dp"
+            android:layout_marginStart="276dp"
             android:layout_marginTop="184dp"
             android:background="@drawable/button_color"
             android:textOff="Lower Substation"
