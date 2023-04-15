@@ -98,8 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText defence;
     private EditText driver;
     private ToggleButton groundIntake;
-    private ToggleButton leftSubstation;
-    private ToggleButton rightSubstation;
+    private ToggleButton doubleSubstation;
     private ToggleButton lowerSubstation;
     private Button placed;
     private Button dropped;
@@ -263,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         autoReset = findViewById(R.id.autoReset);
 
         groundIntake = findViewById(R.id.G);
-        leftSubstation = findViewById(R.id.SL);
+        doubleSubstation = findViewById(R.id.SL);
         lowerSubstation = findViewById(R.id.LS);
         placed = findViewById(R.id.Placed);
         dropped = findViewById(R.id.Dropped);
@@ -297,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        leftSubstation.setOnClickListener(new View.OnClickListener() {
+        doubleSubstation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 state = "DS";
@@ -819,8 +818,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addScore(String x){
-        rightSubstation.setChecked(false);
-        leftSubstation.setChecked(false);
+        doubleSubstation.setChecked(false);
         groundIntake.setChecked(false);
         lowerSubstation.setChecked(false);
         scoreNumber++;
@@ -1146,8 +1144,7 @@ public class MainActivity extends AppCompatActivity {
 
         groundIntake.setChecked(false);
         lowerSubstation.setChecked(false);
-        leftSubstation.setChecked(false);
-        rightSubstation.setChecked(false);
+        doubleSubstation.setChecked(false);
 
         Mobility.setChecked(false);
         AutoEngaged.setChecked(false);
