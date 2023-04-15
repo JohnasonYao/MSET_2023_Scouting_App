@@ -495,6 +495,7 @@ public class MainActivity extends AppCompatActivity {
                     first.setText("");
                     last.setText("");
                 }
+                System.out.println(joined);
                 lastJoined = joined;
             }
         });
@@ -676,7 +677,7 @@ public class MainActivity extends AppCompatActivity {
 
             try{
 
-                URL url = new URL("https://script.google.com/macros/s/AKfycbwoBtBQyuMjve3kE_roIvh4Axze66jFV4G4nSGc7QjwqKlgNQLZ9kBu1h5Jc1U1IWo/exec");
+                URL url = new URL("https://script.google.com/macros/s/AKfycbye2KjsfoNYgjTCh1_Fgfod70Yf8BlpECQ-VRYotDi-RKDIpMIGcy1rK_DmQEgROLUJ/exec");
                 // https://script.google.com/macros/s/AKfycbyuAu6jWNYMiWt9X5yp63-hypxQPlg5JS8NimN6GEGmdKZcIFh0/exec
                 JSONObject postDataParams = new JSONObject();
 
