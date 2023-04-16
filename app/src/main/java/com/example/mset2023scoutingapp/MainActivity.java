@@ -308,7 +308,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addScore("D");
-                scoreList[result[0] - 1][result[1] - 1] = false;
+                if(result[0] != 0 && result[1] != 0 ){
+                    scoreList[result[0] - 1][result[1] - 1] = false;
+                }
                 matchGrid();
             }
         });
