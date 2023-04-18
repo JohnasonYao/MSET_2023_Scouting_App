@@ -284,7 +284,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 scores.remove(scores.size() - 1);
                 lastTime = lastLastTime;
-                scoreList[result[0] - 1][result[1] - 1] = false;
+                if(result[0] != 0 && result[0] != 0){
+                    scoreList[result[0] - 1][result[1] - 1] = false;
+                }
                 matchGrid();
             }
         });
@@ -853,7 +855,11 @@ public class MainActivity extends AppCompatActivity {
         list.add(scoreNumber + "");
         list.add("GP");
         list.add((135 - teleTimeLeft/1000) + "");
-        list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
+        if(scoreNumber == 0){
+            list.add((135 - teleTimeLeft/1000) + "");
+        }else{
+            list.add(((135 - teleTimeLeft/1000) - lastTime) + "");
+        }
         list.add(x);
         list.add(link);
         list.add(piece);
