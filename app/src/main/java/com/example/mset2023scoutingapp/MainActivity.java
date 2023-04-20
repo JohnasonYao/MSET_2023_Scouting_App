@@ -5,6 +5,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -342,135 +343,145 @@ public class MainActivity extends AppCompatActivity {
         Mobility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scoreNumber ++;
-                ArrayList<String> list = new ArrayList<String>();
-                firstName = first.getText().toString();
-                lastName = last.getText().toString();
-                list.add("Qual " + matchNumber.getText().toString() + "");
-                list.add(teamNumber.getText().toString() + "");
-                list.add(allianceColor.getText().toString() + "");
-                list.add(firstName + " " + lastName);
-                list.add("Auto");
-                list.add("Mobility");
-                list.add(scoreNumber + "");
-                list.add("Mobility");
-                list.add((135 - teleTimeLeft/1000) + "");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
+                if (Mobility.isChecked()) {
+                    scoreNumber++;
+                    ArrayList<String> list = new ArrayList<String>();
+                    firstName = first.getText().toString();
+                    lastName = last.getText().toString();
+                    list.add("Qual " + matchNumber.getText().toString() + "");
+                    list.add(teamNumber.getText().toString() + "");
+                    list.add(allianceColor.getText().toString() + "");
+                    list.add(firstName + " " + lastName);
+                    list.add("Auto");
+                    list.add("Mobility");
+                    list.add(scoreNumber + "");
+                    list.add("Mobility");
+                    list.add((135 - teleTimeLeft / 1000) + "");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
 
-                scores.add(list);
+                    scores.add(list);
+                }
             }
         });
 
         AutoEngaged.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scoreNumber ++;
-                ArrayList<String> list = new ArrayList<String>();
-                firstName = first.getText().toString();
-                lastName = last.getText().toString();
-                list.add("Qual " + matchNumber.getText().toString() + "");
-                list.add(teamNumber.getText().toString() + "");
-                list.add(allianceColor.getText().toString() + "");
-                list.add(firstName + " " + lastName);
-                list.add("Auto");
-                list.add("Charge Station");
-                list.add(scoreNumber + "");
-                list.add("Engaged");
-                list.add((135 - teleTimeLeft/1000) + "");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
+                if (AutoEngaged.isChecked()) {
+                    scoreNumber++;
+                    ArrayList<String> list = new ArrayList<String>();
+                    firstName = first.getText().toString();
+                    lastName = last.getText().toString();
+                    list.add("Qual " + matchNumber.getText().toString() + "");
+                    list.add(teamNumber.getText().toString() + "");
+                    list.add(allianceColor.getText().toString() + "");
+                    list.add(firstName + " " + lastName);
+                    list.add("Auto");
+                    list.add("Charge Station");
+                    list.add(scoreNumber + "");
+                    list.add("Engaged");
+                    list.add((135 - teleTimeLeft / 1000) + "");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
 
-                scores.add(list);
+                    scores.add(list);
+                }
             }
         });
 
         TeleEngaged.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scoreNumber ++;
-                ArrayList<String> list = new ArrayList<String>();
-                firstName = first.getText().toString();
-                lastName = last.getText().toString();
-                list.add("Qual " + matchNumber.getText().toString() + "");
-                list.add(teamNumber.getText().toString() + "");
-                list.add(allianceColor.getText().toString() + "");
-                list.add(firstName + " " + lastName);
-                list.add("Tele");
-                list.add("Charge Station");
-                list.add(scoreNumber + "");
-                list.add("Engaged");
-                list.add((135 - teleTimeLeft/1000) + "");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
+                if (TeleEngaged.isChecked()) {
+                    scoreNumber++;
+                    ArrayList<String> list = new ArrayList<String>();
+                    firstName = first.getText().toString();
+                    lastName = last.getText().toString();
+                    list.add("Qual " + matchNumber.getText().toString() + "");
+                    list.add(teamNumber.getText().toString() + "");
+                    list.add(allianceColor.getText().toString() + "");
+                    list.add(firstName + " " + lastName);
+                    list.add("Tele");
+                    list.add("Charge Station");
+                    list.add(scoreNumber + "");
+                    list.add("Engaged");
+                    list.add((135 - teleTimeLeft / 1000) + "");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
 
-                scores.add(list);
+                    scores.add(list);
+                }
             }
         });
 
         TeleNotEngaged.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scoreNumber ++;
-                ArrayList<String> list = new ArrayList<String>();
-                firstName = first.getText().toString();
-                lastName = last.getText().toString();
-                list.add("Qual " + matchNumber.getText().toString() + "");
-                list.add(teamNumber.getText().toString() + "");
-                list.add(allianceColor.getText().toString() + "");
-                list.add(firstName + " " + lastName);
-                list.add("Tele");
-                list.add("Charge Station");
-                list.add(scoreNumber + "");
-                list.add("Engaged");
-                list.add((135 - teleTimeLeft/1000) + "");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
+                if(TeleNotEngaged.isChecked()) {
+                    scoreNumber++;
+                    ArrayList<String> list = new ArrayList<String>();
+                    firstName = first.getText().toString();
+                    lastName = last.getText().toString();
+                    list.add("Qual " + matchNumber.getText().toString() + "");
+                    list.add(teamNumber.getText().toString() + "");
+                    list.add(allianceColor.getText().toString() + "");
+                    list.add(firstName + " " + lastName);
+                    list.add("Tele");
+                    list.add("Charge Station");
+                    list.add(scoreNumber + "");
+                    list.add("Engaged");
+                    list.add((135 - teleTimeLeft / 1000) + "");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
 
-                scores.add(list);
+                    scores.add(list);
+                }
             }
         });
 
         AutoNotEngaged.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scoreNumber ++;
-                ArrayList<String> list = new ArrayList<String>();
-                firstName = first.getText().toString();
-                lastName = last.getText().toString();
-                list.add("Qual " + matchNumber.getText().toString() + "");
-                list.add(teamNumber.getText().toString() + "");
-                list.add(allianceColor.getText().toString() + "");
-                list.add(firstName + " " + lastName);
-                list.add("Auto");
-                list.add("Charge Station");
-                list.add(scoreNumber + "");
-                list.add("Not Engaged");
-                list.add((135 - teleTimeLeft/1000) + "");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
-                list.add("");
+                if (AutoNotEngaged.isChecked()) {
+                    scoreNumber++;
+                    ArrayList<String> list = new ArrayList<String>();
+                    firstName = first.getText().toString();
+                    lastName = last.getText().toString();
+                    list.add("Qual " + matchNumber.getText().toString() + "");
+                    list.add(teamNumber.getText().toString() + "");
+                    list.add(allianceColor.getText().toString() + "");
+                    list.add(firstName + " " + lastName);
+                    list.add("Auto");
+                    list.add("Charge Station");
+                    list.add(scoreNumber + "");
+                    list.add("Not Engaged");
+                    list.add((135 - teleTimeLeft / 1000) + "");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
+                    list.add("");
 
-                scores.add(list);
+                    scores.add(list);
+                }
             }
         });
 
@@ -920,7 +931,13 @@ public class MainActivity extends AppCompatActivity {
                 autoSecondRow = autoScored()[1];
                 autoThirdRow = autoScored()[2];
                 autoScore = autoScored()[3];
-                startTele();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startTele();
+                    }
+                }, 1300);
             }
         }.start();
         autoRun = true;
